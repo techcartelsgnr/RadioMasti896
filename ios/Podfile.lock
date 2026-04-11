@@ -2098,9 +2098,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-track-player (4.1.2):
-    - React-Core
-    - SwiftAudioEx (= 1.1.0)
   - react-native-video (6.19.1):
     - boost
     - DoubleConversion
@@ -3192,7 +3189,6 @@ PODS:
     - SocketRocket
     - Yoga
   - SocketRocket (0.7.1)
-  - SwiftAudioEx (1.1.0)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -3243,7 +3239,6 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
-  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -3304,7 +3299,6 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SocketRocket
-    - SwiftAudioEx
 
 EXTERNAL SOURCES:
   boost:
@@ -3400,8 +3394,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
-  react-native-track-player:
-    :path: "../node_modules/react-native-track-player"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -3550,7 +3542,6 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 1a5a9488d2a05c74ea276c2012df632d8221d169
   react-native-safe-area-context: 7e0ba374906d8f5009aaf96cd19d4866d8de342b
   react-native-slider: 770ecdcaca7487359f628e432000c8aa7ce358d9
-  react-native-track-player: 24ecd55d64da8a6471ba96484b67bc9cee6fc629
   react-native-video: deda3dbd14c35feece29f246ff772d29c061d428
   react-native-webview: 21fdd62caca650645e429b4a84941626612616ef
   React-NativeModulesApple: dfce21d2c4b7eab44db0af861fcb8998d0b8ad16
@@ -3596,7 +3587,6 @@ SPEC CHECKSUMS:
   RNSVG: 7d61168bfce19c34046118e5018e237d1cea1d3f
   RNWorklets: 3f35c2c01e5839d4fee0496d10ada185628ba328
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   Yoga: 33b53536a0500d039f2cd78caf1d5d68712d3af7
 
 PODFILE CHECKSUM: b06d6c750807011a48a393ecba49556889ab45ea
