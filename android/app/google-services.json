@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "960461147196",
+    "project_id": "radiomasti-23229",
+    "storage_bucket": "radiomasti-23229.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960461147196:android:037fdba3fa9fe42035c739",
+        "android_client_info": {
+          "package_name": "com.radiomasti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO3C6sxpLcSao57la99UUUheC9RAx0Bhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960461147196:android:5988e6bd0022b01435c739",
+        "android_client_info": {
+          "package_name": "com.radiomasti.ganganagar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO3C6sxpLcSao57la99UUUheC9RAx0Bhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
