@@ -34,10 +34,10 @@ const Header = () => {
           activeOpacity={0.7}
           onPress={() => navigation.toggleDrawer()}
         >
-          {/* 🔹 LOGO (RESPONSIVE) */}
+          {/* 🔹 MENU ICON (RESPONSIVE) */}
           <Image
-            source={require('../../assets/MastiFmLogo.png')}
-            style={styles.logoImage}
+            source={isDarkMode ? require('../../assets/menuy.png') : require('../../assets/menu.png')}
+            style={styles.menuIcon}
             resizeMode="contain"
           />
         </TouchableOpacity>
@@ -45,14 +45,16 @@ const Header = () => {
 
       {/* ================= RIGHT ================= */}
       <View style={styles.rightSection}>
+        
+
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => navigation.toggleDrawer()}
         >
-          {/* 🔹 MENU ICON (RESPONSIVE) */}
+          {/* 🔹 LOGO (RESPONSIVE) */}
           <Image
-            source={isDarkMode ? require('../../assets/menuy.png') : require('../../assets/menu.png')}
-            style={styles.menuIcon}
+            source={require('../../assets/MastiFmLogo.png')}
+            style={styles.logoImage}
             resizeMode="contain"
           />
         </TouchableOpacity>

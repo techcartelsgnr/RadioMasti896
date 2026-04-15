@@ -13,6 +13,7 @@
   "dependencies": {
     "@notifee/react-native": "^9.1.8",
     "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-community/blur": "^4.4.1",
     "@react-native-community/slider": "^5.1.2",
     "@react-native-firebase/app": "^23.8.3",
     "@react-native-firebase/messaging": "^23.8.3",
@@ -32,7 +33,7 @@
     "react-native-linear-gradient": "^2.8.3",
     "react-native-reanimated": "^4.3.0",
     "react-native-responsive-fontsize": "^0.5.1",
-    "react-native-safe-area-context": "^5.5.2",
+    "react-native-safe-area-context": "^5.7.0",
     "react-native-screens": "^4.20.0",
     "react-native-svg": "^15.15.1",
     "react-native-toast-message": "^2.3.3",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,87 +8,90 @@ import {
   TouchableOpacity,
   RefreshControl,
   Linking,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 
-import AppHeader from '../../components/AppHeader';
-import commanServices from '../../redux/services/commanServices';
+import AppHeader from "../../components/AppHeader";
+import { fetchRjShows } from "../../redux/slices/commonSlice";
 
 import {
   useTheme,
   Fonts,
   FontSizes,
   Spacing,
-  DeviceSize,
-} from '../../theme/theme';
+  BorderRadius,
+  Shadows,
+} from "../../theme/theme";
+
+import { Play } from "lucide-react-native";
 
 const RjShows = () => {
+  const dispatch = useDispatch();
   const { colors } = useTheme();
 
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
+  const { rjShows, rjShowsLoading } = useSelector(
+    (state) => state.common
+  );
 
-  const loadShows = async () => {
-    setLoading(true);
-    const res = await commanServices.getRjShows();
-    setList(res?.rjShows || []);
-    setLoading(false);
-  };
-
+  /* 📡 LOAD */
   useEffect(() => {
-    loadShows();
+    dispatch(fetchRjShows());
   }, []);
 
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    const res = await commanServices.getRjShows();
-    setList(res?.rjShows || []);
-    setRefreshing(false);
+  /* 🔄 REFRESH */
+  const onRefresh = useCallback(() => {
+    dispatch(fetchRjShows());
   }, []);
 
+  /* ▶️ OPEN URL */
   const openYoutube = async (url) => {
     if (!url) return;
-
     const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      Linking.openURL(url);
-    }
+    if (supported) Linking.openURL(url);
   };
 
+  /* 🎧 ITEM */
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      activeOpacity={0.8}
+      activeOpacity={0.9}
       onPress={() => openYoutube(item.url)}
-      style={styles.row}
+      style={[
+        styles.card,
+        {
+          backgroundColor: colors.cardBackground,
+          borderColor: colors.border,
+        },
+      ]}
     >
-      {/* Avatar */}
-      <Image
-        source={
-          item.image
-            ? { uri: item.image }
-            : require('../../../assets/placeholder.png')
-        }
-        style={styles.avatar}
-      />
+      {/* IMAGE */}
+      <View style={styles.imageWrapper}>
+        <Image
+          source={
+            item.image
+              ? { uri: item.image }
+              : require("../../../assets/placeholder.png")
+          }
+          style={styles.image}
+        />
 
-      {/* Info */}
+        {/* ▶️ PLAY BUTTON */}
+        <View style={styles.playBtn}>
+          <Play size={18} color="#fff" />
+        </View>
+      </View>
+
+      {/* INFO */}
       <View style={styles.info}>
         <Text
-          style={[
-            styles.name,
-            { color: colors.textPrimary },
-          ]}
+          style={[styles.name, { color: colors.textPrimary }]}
           numberOfLines={1}
         >
-          {item.name}
+          {item.name || "RJ Show"}
         </Text>
 
         <Text
-          style={[
-            styles.desc,
-            { color: colors.textSecondary },
-          ]}
+          style={[styles.desc, { color: colors.textSecondary }]}
           numberOfLines={2}
         >
           {item.description}
@@ -104,9 +107,9 @@ const RjShows = () => {
         { backgroundColor: colors.background },
       ]}
     >
-      <AppHeader title={'Back'} />
+      <AppHeader title="RJ Shows" />
 
-      {/* Title */}
+      {/* HEADER */}
       <View style={styles.headerBox}>
         <Text style={styles.title}>
           <Text style={{ color: colors.primary }}>RJ's </Text>
@@ -123,18 +126,19 @@ const RjShows = () => {
         </Text>
       </View>
 
-      {/* List */}
+      {/* LIST */}
       <FlatList
-        data={list}
+        data={rjShows}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          paddingHorizontal: Spacing.md,
           paddingBottom: Spacing.xl,
         }}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={rjShowsLoading}
             onRefresh={onRefresh}
             tintColor={colors.primary}
           />
@@ -146,21 +150,22 @@ const RjShows = () => {
 
 export default RjShows;
 
+/* ================= STYLES ================= */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 40,
   },
 
   headerBox: {
-    paddingVertical: Spacing.lg,
-    alignItems: 'center',
+    paddingVertical: Spacing.smt,
+    alignItems: "center",
   },
 
   title: {
     fontFamily: Fonts.primary.bold,
     fontSize: FontSizes.title,
-    marginBottom: Spacing.xs,
+    // marginBottom: Spacing.xs,
   },
 
   subtitle: {
@@ -168,33 +173,51 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.medium,
   },
 
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
+  /* 🎧 CARD */
+  card: {
     marginBottom: Spacing.lg,
+    borderRadius: BorderRadius.lg,
+    borderWidth: 1,
+    overflow: "hidden",
+    ...Shadows.md,
   },
 
-  avatar: {
-    width: DeviceSize.wp(18),
-    height: DeviceSize.wp(18),
-    borderRadius: DeviceSize.wp(9),
-    backgroundColor: '#ddd',
+  imageWrapper: {
+    width: "100%",
+    height: 180,
+    position: "relative",
+  },
+
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+
+  /* ▶️ PLAY BUTTON */
+  playBtn: {
+    position: "absolute",
+    top: "40%",
+    alignSelf: "center",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   info: {
-    flex: 1,
-    marginLeft: Spacing.md,
+    padding: Spacing.md,
   },
 
   name: {
-    fontFamily: Fonts.roboto.bold,
+    fontFamily: Fonts.primary.bold,
     fontSize: FontSizes.large,
-    marginBottom: Spacing.xs,
+    marginBottom: 4,
   },
 
   desc: {
-    fontFamily: Fonts.roboto.regular,
+    fontFamily: Fonts.primary.regular,
     fontSize: FontSizes.small,
     lineHeight: 18,
   },

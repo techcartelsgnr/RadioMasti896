@@ -212,10 +212,17 @@ export const Fonts = {
   hindi: {
     regular: 'TiroDevanagariHindi-Regular',
   },
-
   decorative: {
     script: 'OleoScript-Bold',
     graffiti: 'ProtestRiot-Regular',
+  },
+  clash: {
+    regular: 'ClashDisplay-Regular',
+    medium: 'ClashDisplay-Medium',
+    bold: 'ClashDisplay-Bold',
+  },
+   pacifico: {
+    regular: 'Pacifico-Regular',
   },
 };
 

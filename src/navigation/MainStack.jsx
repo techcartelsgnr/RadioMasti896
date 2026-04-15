@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabRoutes from './TabRoutes';
-import { PodCastAudio, ReadScreen, RjShows, VideoPlayerScreen } from './index';
+import { EventDetails, EventScreen, GalleryScreen, OurRJ, PodCastAudio, ProfileScreen, RjShows, VideoPlayerScreen } from './index';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +12,12 @@ const MainStack = () => {
             <Stack.Screen name="VideoPlayerScreen" component={VideoPlayerScreen} />
             <Stack.Screen name="PodCastAudio" component={PodCastAudio} />
             <Stack.Screen name="RjShows" component={RjShows} />
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+            <Stack.Screen name="OurRJ" component={OurRJ} />
+            <Stack.Screen name="EventScreen" component={EventScreen} />
+            <Stack.Screen name="EventDetails" component={EventDetails} />
+            <Stack.Screen name="GalleryScreen" component={GalleryScreen} />
+            
         </Stack.Navigator>
     );
 };

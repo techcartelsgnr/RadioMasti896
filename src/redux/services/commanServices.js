@@ -303,9 +303,6 @@ const getFeedbackHistory = async (token) => {
 };
 
 // ================================
-// 🔴 Get Live Stream
-// ================================
-// ================================
 // 🔴 Get Live Stream (PUBLIC API)
 // ================================
 const getLiveStream = async () => {
@@ -347,6 +344,179 @@ const getLiveStream = async () => {
   }
 };
 
+// ================================
+// 🎙️ Get Our RJ
+// ================================
+const getOurRj = async () => {
+  try {
+    const res = await authAxios.get('/our-rj', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const list = Array.isArray(res.data) ? res.data : [];
+
+    // ✅ Clean UI-friendly structure
+    const rjList = list.map((item) => ({
+      id: item.id,
+      name: item.name || "RJ",
+      image: item.image_path ?? null,
+      designation: item.designation ?? "",
+    }));
+
+    return { rjList };
+
+  } catch (error) {
+    console.log('Get Our RJ API Error:', error);
+    return { rjList: [] };
+  }
+};
+
+// ================================
+// 📅 Get Events
+// ================================
+const getEvents = async () => {
+  try {
+    const res = await authAxios.get('/events', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const list = res?.data?.data || [];
+
+    // ✅ Clean UI-friendly structure
+    const events = list.map((item) => ({
+      id: item.id,
+      slug: item.slug ?? "",
+      title: item.title ?? "",
+      location: item.location ?? "",
+      date: item.date ?? "",
+      time: item.time ?? "",
+      type: item.type ?? "", // Upcoming / Past
+      image: item.image ?? null,
+    }));
+
+    return { events };
+
+  } catch (error) {
+    console.log("Get Events API Error:", error);
+    return { events: [] };
+  }
+};
+
+// ================================
+// 📅 Get Event Detail
+// ================================
+const getEventDetail = async (id) => {
+  try {
+    const res = await authAxios.get(`/event-detail/${id}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = res?.data?.data || {};
+
+    // ✅ Clean structure for UI
+    const eventDetail = {
+      id: data.id,
+      slug: data.slug ?? "",
+      title: data.title ?? "",
+      location: data.location ?? "",
+      date: data.date ?? "",
+      time: data.time ?? "",
+      type: data.type ?? "",
+      description: data.description ?? "",
+      image: data.image ?? null,
+      createdAt: data.created_at ?? "",
+    };
+
+    return { eventDetail };
+
+  } catch (error) {
+    console.log("Get Event Detail API Error:", error);
+
+    return {
+      eventDetail: null,
+    };
+  }
+};
+
+// ================================
+// 🖼️ Get Gallery Images
+// ================================
+const getGallery = async () => {
+  try {
+    const res = await authAxios.get('/gallery', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const list = Array.isArray(res.data) ? res.data : [];
+
+    // ✅ Clean UI-friendly structure
+    const gallery = list.map((item) => ({
+      id: item.id,
+      image: item.image_path ?? null,
+    }));
+
+    return { gallery };
+
+  } catch (error) {
+    console.log("Get Gallery API Error:", error);
+    return { gallery: [] };
+  }
+};
+
+// ================================
+// 📘 Get About Us
+// ================================
+const getAboutUs = async () => {
+  try {
+    const res = await authAxios.get('/about-us', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = res?.data?.data || {};
+
+    // 🧼 Remove HTML tags
+    const stripHtml = (html) => {
+      if (!html || typeof html !== "string") return "";
+      return html.replace(/<[^>]*>?/gm, "").trim();
+    };
+
+    // ✅ Clean structure
+    const about = {
+      id: data.id,
+      title: data.title ?? "",
+      shortDescription: stripHtml(data.short_description),
+      description: stripHtml(data.description),
+      aboutImage: data.about_image ?? null,
+      image: data.image ?? null,
+      totalListener: data.total_listener ?? "0",
+      totalRJ: data.total_radio_jockey ?? "0",
+      totalShow: data.total_show ?? "0",
+      totalAward: data.total_award ?? "0",
+    };
+
+    return { about };
+
+  } catch (error) {
+    console.log("Get About API Error:", error);
+    return { about: null };
+  }
+};
+
 
 
 
@@ -370,6 +540,11 @@ const commanServices = {
   getAdvertisements,
   submitFeedback,
   getFeedbackHistory,
-  getLiveStream
+  getLiveStream,
+  getOurRj,
+  getEvents,
+  getEventDetail,
+  getGallery,
+  getAboutUs
 };
 export default commanServices;

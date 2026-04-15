@@ -7,7 +7,7 @@ import {
   HomeScreen,
   PlayFMProfile,
   PodCasts,
-  ReadScreen,
+  ProfileScreen,
   YoutubeWatch,
 } from './index';
 
@@ -67,9 +67,23 @@ export default function TabRoutes() {
           ),
         }}
       />
+        {/* ---------------- Posts ---------------- */}
+      <Tab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: 'Play 89.6 FM',
+          tabBarIcon: () => (
+            <Image
+              source={require('../../assets/tab/smile.png')}
+              style={styles.icon}
+            />
+          ),
+        }}
+      />
 
       {/* ---------------- Posts ---------------- */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="PlayFMProfile"
         component={PlayFMProfile}
         options={{
@@ -81,7 +95,7 @@ export default function TabRoutes() {
             />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

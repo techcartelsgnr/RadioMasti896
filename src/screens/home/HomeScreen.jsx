@@ -16,6 +16,7 @@ import FmRadioPlayer from '../../components/FmRadioPlayer';
 import HomePlayPodcast from '../../components/HomePlayPodcast';
 import CustomSlider from '../../components/CustomSlider';
 import Header from '../../components/Header';
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 import { fetchAdvertisements } from '../../redux/slices/commonSlice';
 
@@ -101,7 +102,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView
+    <ScreenWrapper
       style={[
         styles.safeArea,
         { backgroundColor: colors.background },
@@ -129,14 +130,13 @@ export default function HomeScreen() {
           />
         }
       />
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    paddingBottom: 70,
   },
 
   container: {

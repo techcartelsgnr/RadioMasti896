@@ -142,7 +142,6 @@ export default function PlayFMProfile() {
                     </Text>
                 </View>
             </View>
-
         </SafeAreaView>
     )
 }

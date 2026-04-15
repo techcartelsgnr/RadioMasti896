@@ -14,17 +14,19 @@ import {
 } from '@react-navigation/drawer';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'react-native-linear-gradient';
 
 import {
   Headphones,
-  Video,
   Smile,
   BookOpen,
+  Info,
+  Shield,
+  FileText,
 } from 'lucide-react-native';
 
 import MainStack from './MainStack';
-import ReadScreen from '../screens/common/ReadScreen';
-import RjShows from '../screens/common/RjShows';
+import { RjShows, ReadScreen, AboutScreen } from '../navigation/index'
 
 import commanServices from '../redux/services/commanServices';
 
@@ -33,25 +35,40 @@ import {
   DeviceSize,
   FontSizes,
   Fonts,
+  BorderRadius,
+  Shadows,
 } from '../theme/theme';
-import PodCasts from '../screens/common/PodCasts';
-import { YoutubeWatch } from '.';
 
 /* =========================
    DRAWER ITEM
 ========================= */
-
-const DrawerItem = ({ icon: Icon, label, onPress }) => {
+const DrawerItem = ({ icon: Icon, label, active, onPress }) => {
   const { colors } = useTheme();
 
   return (
     <TouchableOpacity
-      style={styles.itemRow}
-      activeOpacity={0.8}
       onPress={onPress}
+      activeOpacity={0.8}
+      style={[
+        styles.itemRow,
+        active && {
+          backgroundColor: colors.cardBackground,
+          borderRadius: BorderRadius.md,
+        },
+      ]}
     >
-      <Icon size={22} color={colors.textPrimary} />
-      <Text style={[styles.itemLabel, { color: colors.textPrimary }]}>
+      <Icon
+        size={22}
+        color={active ? colors.primary : colors.textSecondary}
+      />
+      <Text
+        style={[
+          styles.itemLabel,
+          {
+            color: active ? colors.primary : colors.textPrimary,
+          },
+        ]}
+      >
         {label}
       </Text>
     </TouchableOpacity>
@@ -59,11 +76,10 @@ const DrawerItem = ({ icon: Icon, label, onPress }) => {
 };
 
 /* =========================
-   CUSTOM DRAWER CONTENT
+   CUSTOM DRAWER
 ========================= */
-
 function CustomDrawerContent(props) {
-  const { colors, isDarkMode } = useTheme();
+  const { colors } = useTheme();
   const [socialLinks, setSocialLinks] = useState({});
 
   useEffect(() => {
@@ -73,72 +89,86 @@ function CustomDrawerContent(props) {
     })();
   }, []);
 
-  const openLink = (url) => {
-    if (url) Linking.openURL(url);
-  };
+  const openLink = (url) => url && Linking.openURL(url);
+
+  const currentRoute = props.state.routeNames[props.state.index];
 
   return (
-    <SafeAreaView
-      style={[
-        styles.safeArea,
-        { backgroundColor: colors.background },
-      ]}
-      edges={['top', 'bottom']}
-    >
-      {/* ───────── LOGO ───────── */}
-      <View style={styles.logoBox}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+
+      {/* 🔥 HEADER */}
+      <LinearGradient
+        colors={[colors.surface, colors.cardBackground]}
+        style={styles.header}
+      >
         <Image
-          source={
-            isDarkMode
-              ? require('../../assets/MastiFmLogo.png')
-              : require('../../assets/radiomastibg.png')
-          }
+          source={require('../../assets/radiomastibg.png')}
           style={styles.logo}
         />
-      </View>
 
-      {/* ───────── MENU ───────── */}
+        <Text style={styles.tagline}>
+          Radio Masti 89.6 FM
+        </Text>
+      </LinearGradient>
+
+      {/* 🔥 MENU */}
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={styles.menuContainer}
         showsVerticalScrollIndicator={false}
       >
-        
-
         <DrawerItem
-          icon={Smile}
-          label="RJs / Shows"
-          onPress={() => props.navigation.navigate('RjShows')}
+          icon={Headphones}
+          label="Live Radio"
+          active={currentRoute === 'Tabs'}
+          onPress={() => props.navigation.navigate('Tabs')}
         />
 
         <DrawerItem
           icon={BookOpen}
           label="Read"
+          active={currentRoute === 'ReadScreen'}
           onPress={() => props.navigation.navigate('ReadScreen')}
         />
+
+        <DrawerItem
+          icon={Info}
+          label="About Us"
+          active={currentRoute === 'AboutScreen'}
+          onPress={() => props.navigation.navigate('AboutScreen')}
+        />
+        <DrawerItem
+          icon={Shield}
+          label="Privacy Policy"
+        />
+        <DrawerItem
+          icon={FileText}
+          label="Terms & Conditions"
+        />
+
       </DrawerContentScrollView>
 
-      {/* ───────── SOCIAL ───────── */}
-      <View style={styles.bottomSection}>
+      {/* 🔥 FOOTER */}
+      <View style={styles.footer}>
         <Text style={[styles.followText, { color: colors.textSecondary }]}>
-          Follow us on
+          Connect with us
         </Text>
 
         <View style={styles.socialRow}>
           <TouchableOpacity onPress={() => openLink(socialLinks.facebook)}>
-            <Image source={require('../../assets/facebook.png')} style={styles.socialIcon} />
+            <Image source={require('../../assets/facebook.png')} style={styles.icon} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => openLink(socialLinks.instagram)}>
-            <Image source={require('../../assets/instagram.png')} style={styles.socialIcon} />
+            <Image source={require('../../assets/instagram.png')} style={styles.icon} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => openLink(socialLinks.youtube)}>
-            <Image source={require('../../assets/youtube.png')} style={styles.socialIcon} />
+            <Image source={require('../../assets/youtube.png')} style={styles.icon} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => openLink(socialLinks.twitter)}>
-            <Image source={require('../../assets/twitter.png')} style={styles.socialIcon} />
+            <Image source={require('../../assets/twitter.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>
@@ -147,7 +177,7 @@ function CustomDrawerContent(props) {
 }
 
 /* =========================
-   DRAWER NAVIGATOR
+   NAVIGATION
 ========================= */
 
 const Drawer = createDrawerNavigator();
@@ -160,9 +190,10 @@ export default function DrawerNavigation() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: false,
-        drawerType: 'front',
+        drawerType: 'slide',
+        overlayColor: 'rgba(0,0,0,0.4)',
         drawerStyle: {
-          width: '76%',
+          width: '75%',
           backgroundColor: colors.background,
         },
       }}
@@ -170,8 +201,7 @@ export default function DrawerNavigation() {
       <Drawer.Screen name="Tabs" component={MainStack} />
       <Drawer.Screen name="RjShows" component={RjShows} />
       <Drawer.Screen name="ReadScreen" component={ReadScreen} />
-      <Drawer.Screen name="PodCasts" component={PodCasts} />
-      <Drawer.Screen name="YoutubeWatch" component={YoutubeWatch} />
+      <Drawer.Screen name="AboutScreen" component={AboutScreen} />
     </Drawer.Navigator>
   );
 }
@@ -181,31 +211,38 @@ export default function DrawerNavigation() {
 ========================= */
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-
-  logoBox: {
+  header: {
+    paddingVertical: DeviceSize.hp(4),
     alignItems: 'center',
-    paddingVertical: DeviceSize.wp(5),
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
 
   logo: {
-    width: DeviceSize.wp(50),
-    height: DeviceSize.wp(22),
+    width: DeviceSize.wp(45),
+    height: DeviceSize.wp(20),
     resizeMode: 'contain',
   },
 
+  tagline: {
+    color: '#000',
+    marginTop: 8,
+    fontSize: FontSizes.small,
+    fontFamily: Fonts.primary.medium,
+  },
+
   menuContainer: {
-    paddingVertical: DeviceSize.wp(2),
+    paddingTop: 20,
+    paddingHorizontal: 10,
   },
 
   itemRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: DeviceSize.wp(3.5),
-    paddingHorizontal: DeviceSize.wp(5),
-    gap: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    marginBottom: 6,
+    gap: 12,
   },
 
   itemLabel: {
@@ -213,26 +250,26 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.primary.medium,
   },
 
-  bottomSection: {
-    paddingVertical: DeviceSize.wp(4),
-    paddingHorizontal: DeviceSize.wp(5),
+  footer: {
+    paddingBottom: 15,
+    paddingTop: 10,
+    alignItems: 'center',
     borderTopWidth: 1,
-    borderColor: '#E5E5E5',
+    borderColor: '#ddd',
   },
 
   followText: {
     fontSize: FontSizes.small,
+    marginBottom: 10,
     fontFamily: Fonts.primary.medium,
-    marginBottom: 12,
   },
 
   socialRow: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: 20,
   },
 
-  socialIcon: {
+  icon: {
     width: 26,
     height: 26,
     resizeMode: 'contain',

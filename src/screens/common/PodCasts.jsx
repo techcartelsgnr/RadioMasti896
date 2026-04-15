@@ -10,12 +10,12 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Play, Info } from 'lucide-react-native'; // ✅ FIX
 
-import Header from '../../components/Header';
+import TopHeader from '../../components/TopHeader';
 import EmptyState from '../../components/EmptyState';
 import commanServices from '../../redux/services/commanServices'; // ✅ FIX
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 import {
   useTheme,
@@ -150,13 +150,13 @@ const PodCasts = () => {
   );
 
   return (
-    <SafeAreaView
+    <ScreenWrapper
       style={[
         styles.safeArea,
         { backgroundColor: colors.background },
       ]}
     >
-      <Header />
+      <TopHeader title="Podcast Audio" />
 
       {/* 🔹 PAGE HEADING */}
       <View style={styles.headingBox}>
@@ -252,7 +252,7 @@ const PodCasts = () => {
                 </View>
               </Pressable>
             </Modal>
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 };
 
@@ -262,7 +262,6 @@ export default PodCasts;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    paddingBottom: 70,
   },
 
   headingBox: {
@@ -308,7 +307,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.80)',
+    backgroundColor: 'rgba(0,0,0,0.20)',
     borderRadius: BorderRadius.lg,
   },
   playCircle: {
